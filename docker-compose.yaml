@@ -1,0 +1,5 @@
+services:
+  python-cron:
+    image: aurora_tracker
+    container_name: aurora_tracker
+    restart: unless-stopped  # Restart policy for the container
