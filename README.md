@@ -27,5 +27,9 @@ The Aurora Tracker is designed to run within a Docker container, ensuring a cons
     ```
 4. **Build the Docker Container**: To build the Docker container, run the following command in your terminal:
     ```sh
-    ./build_docker_container.sh
+    # Build Dockerfile
+    docker build -t aurora_tracker .
+
+    # Run Docker container
+    docker compose up -d
     ```
