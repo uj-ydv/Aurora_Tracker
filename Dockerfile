@@ -8,10 +8,10 @@ WORKDIR /app
 COPY . .
 
 # Install the dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Install cron
-RUN apt-get update && apt-get install -y cron && apt-get clean
+RUN apt-get update && apt-get install -y cron
 
 # Copy the crontab file into the cron.d directory
 COPY crontab /etc/cron.d/my-cron
@@ -30,4 +30,4 @@ RUN touch /var/log/cron.log
 # CMD ["cron", "-f"]
 # CMD cron && tail -f /var/log/cron.log
 # Run the command on container startup using JSON array format
-CMD ["sh", "-c", "cron && tail -f /var/log/cron.log"]
+CMD ["sh", "-c", "cron -f && tail -f /var/log/cron.log"]

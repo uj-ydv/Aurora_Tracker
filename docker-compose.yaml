@@ -2,4 +2,6 @@ services:
   python-cron:
     image: aurora_tracker
     container_name: aurora_tracker
+    environment:
+      - TZ=Australia/Melbourne
     restart: unless-stopped  # Restart policy for the container
