@@ -49,9 +49,12 @@ def get_data():
     ### Fetch data from the NOAA website
     raw_data = requests.get('https://services.swpc.noaa.gov/text/3-day-forecast.txt').content.decode('utf-8')
     kp_lines = re.findall("^.*[0-9]{2}-[0-9]{2}UT.*$", raw_data, re.MULTILINE)
+    
     # Prepare the data dictionary
     data_dicts = []
     for entry in kp_lines:
+        # Remove any 'G#' values. Don't really need {1,2} as there are only 5 levels.
+        entry = re.sub(r'\(G[0-9]{1,2}\)', '    ', entry)  
         parts = entry.split()
         data_dicts.append({
             'time': parts[0],
@@ -71,7 +74,7 @@ def check_for_aurora(raw_data):
     # Check for Kp index values greater than or equal to 7
     for entry in raw_data:
         for key in ['date1', 'date2', 'date3']:
-            if entry[key] >= 7:
+            if entry[key] >= 6:
                 flag = 1
                 time = entry['time']
                 date_key = key
@@ -113,7 +116,7 @@ def send_email_notification(output):
     # receiver_email = ['ujjwal.notification@gmail.com']#, 'ydv.ujjwal088@gmail.com']
     receiver_email = fetch_receiver_emails('receiver_email_list.txt')  # Fetch from the text file
     subject = 'Aurora Forecast Update'
-    body = f'    Forecasts indicate a high possibility of seeing the aurora in the next 3 days.\n\n\
+    body = f'    Forecasts indicate a possibility of seeing the aurora in the next 3 days.\n\n\
     Aurora Forecast : {output}\n\n\
     Enjoy the night, and do not forget to share your experiences if you get a chance to see the aurora!'
     
