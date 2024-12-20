@@ -74,7 +74,7 @@ def check_for_aurora(raw_data):
     # Check for Kp index values greater than or equal to 7
     for entry in raw_data:
         for key in ['date1', 'date2', 'date3']:
-            if entry[key] >= 5:
+            if entry[key] >= 4:
                 flag = 1
                 time = entry['time']
                 date_key = key
@@ -99,10 +99,20 @@ def check_for_aurora(raw_data):
     return output,flag
 
 def fetch_receiver_emails(filename):
-    with open(filename, 'r') as file:
-        # Read lines and strip any whitespace
-        emails = [line.strip() for line in file.readlines()]
-    return emails
+    # Get the directory of the currently running script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Create the full path to the file
+    file_path = os.path.join(script_dir, filename)
+    try:
+        with open(file_path, 'r') as file:
+            # Read lines and strip any whitespace
+            emails = [line.strip() for line in file.readlines()]
+        return emails
+    except FileNotFoundError:
+        print(f"Error: The file {filename} does not exist at {file_path}")
+        return []
+
 
 def send_email_notification(output):
     # Email credentials
@@ -113,7 +123,6 @@ def send_email_notification(output):
     
     # Set up the email parameters
     sender_email = os.getenv('USERNAME')
-    # receiver_email = ['ujjwal.notification@gmail.com']#, 'ydv.ujjwal088@gmail.com']
     receiver_email = fetch_receiver_emails('receiver_email_list.txt')  # Fetch from the text file
     subject = 'Aurora Forecast Update'
     body = f'    Forecasts indicate a possibility of seeing the aurora in the next 3 days.\n\n\
