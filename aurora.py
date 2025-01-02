@@ -74,7 +74,7 @@ def check_for_aurora(raw_data):
     # Check for Kp index values greater than or equal to 7
     for entry in raw_data:
         for key in ['date1', 'date2', 'date3']:
-            if entry[key] >= 4:
+            if entry[key] >= 6.5:
                 flag = 1
                 time = entry['time']
                 date_key = key
