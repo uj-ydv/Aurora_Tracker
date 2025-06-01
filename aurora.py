@@ -37,7 +37,7 @@ def convert_utc_range_to_aedt(utc_time_str):
 
 # Function to read data from raw.txt file and convert it into a dictionary
 def get_data():
-    # # Fetch data from raw.txt file --> This is for testing purposes
+    # # # Fetch data from raw.txt file --> This is for testing purposes
     # data = []
     # with open(os.path.join(os.path.dirname(__file__), 'raw.txt'), 'r') as f:
     #     for line in f:
@@ -45,7 +45,7 @@ def get_data():
     
     # raw_data_string = "\n".join(data)
     # kp_lines = re.findall(r"^.*[0-9]{2}-[0-9]{2}UT.*$", raw_data_string, re.MULTILINE)
-
+    
     ### Fetch data from the NOAA website
     raw_data = requests.get('https://services.swpc.noaa.gov/text/3-day-forecast.txt').content.decode('utf-8')
     kp_lines = re.findall("^.*[0-9]{2}-[0-9]{2}UT.*$", raw_data, re.MULTILINE)
@@ -101,7 +101,6 @@ def check_for_aurora(raw_data):
 def fetch_receiver_emails(filename):
     # Get the directory of the currently running script
     script_dir = os.path.dirname(os.path.abspath(__file__))
-
     # Create the full path to the file
     file_path = os.path.join(script_dir, filename)
     try:
